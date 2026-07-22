@@ -1,42 +1,8 @@
 import { motion } from 'framer-motion'
 import SectionShell, { ModeCrossfade } from './SectionShell'
 import { usePortfolioMode } from '@/context/PortfolioModeContext'
-import { useCountUp } from '@/hooks/useCountUp'
 import { cn } from '@/lib/utils'
 import { GraduationCap, MapPin, Briefcase } from 'lucide-react'
-
-function AnimatedStat({ value, label }: { value: string; label: string }) {
-  const { mode } = usePortfolioMode()
-  // Extract number from value for animation
-  const numMatch = value.match(/([\d.]+)/)
-  const num = numMatch ? parseFloat(numMatch[1]) : 0
-  const prefix = value.match(/^([^\d]*)/)?.[1] || ''
-  const suffix = value.match(/[\d.]+(.*)$/)?.[1] || ''
-
-  const { ref, display } = useCountUp({ end: num, prefix, suffix, duration: 2, decimals: value.includes('.') ? 2 : 0 })
-
-  return (
-    <div
-      ref={ref}
-      className={cn(
-        'glass-card p-5 text-center group',
-        'hover:scale-[1.02] transition-transform duration-300'
-      )}
-    >
-      <div
-        className={cn(
-          'font-display text-2xl md:text-3xl font-bold mb-1',
-          mode === 'tech' ? 'gradient-text-tech' : 'gradient-text-edit'
-        )}
-      >
-        {display}
-      </div>
-      <div className="text-xs text-text-muted uppercase tracking-wider">
-        {label}
-      </div>
-    </div>
-  )
-}
 
 export default function AboutSection() {
   const { mode } = usePortfolioMode()
@@ -44,7 +10,7 @@ export default function AboutSection() {
   return (
     <SectionShell id="about">
       <ModeCrossfade>
-        <div className="grid md:grid-cols-2 gap-12 items-start">
+        <div className="grid md:grid-cols-[1.3fr_1fr] lg:grid-cols-[1.5fr_1fr] gap-8 lg:gap-12 items-center">
           <div>
             <h2 className="font-display text-section mb-6">
               {mode === 'tech' ? (
@@ -53,12 +19,36 @@ export default function AboutSection() {
                 <>About <span className="gradient-text-edit">Me</span></>
               )}
             </h2>
-            <p className="text-section-sub text-text-secondary leading-relaxed mb-6">
-              {mode === 'tech'
-                ? "3rd-year Electrical Engineering student at MANIT Bhopal (CGPA 8.90) with a passion for building intelligent systems. Specializing in Generative AI (RAG, LangChain) and full-stack development, with a strong foundation in competitive programming."
-                : "Video Editing Head at Roobaroo Cultural Society, MANIT Bhopal. Passionate about crafting compelling visual narratives that resonate with audiences. Leading a team to produce content that has amassed over 110K+ views."
-              }
-            </p>
+            <div className="text-section-sub text-text-secondary leading-relaxed mb-6 space-y-4 max-w-2xl">
+              {mode === 'tech' ? (
+                <>
+                  <p>
+                    I’m a Software Developer with a background in Electrical Engineering, but my journey into tech hasn’t been just about circuits and code—it's always been driven by a desire to create.
+                  </p>
+                  <div>
+                    <h3 className="text-text-primary font-medium mb-1 text-sm uppercase tracking-wider">Why Software Development & Gen AI?</h3>
+                    <p>
+                      For me, software development is the ultimate form of problem-solving. I love the feeling of building something from nothing and crafting solutions that make a tangible impact. Whether I'm optimizing C++ algorithms or structuring complex logic, coding feels like a puzzle I can’t put down. I’m particularly fascinated by Generative AI. It’s essentially a brilliant creative partner—it helps me brainstorm, accelerates my workflow, and allows me to tackle complex problems in ways I never thought possible.
+                    </p>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <p>
+                    Long before writing code, I was cutting frames. Inspired by a senior in 10th grade, I fell in love with video editing—a passion I later rekindled in college through our cultural society, Roobaroo. Balancing a demanding EE degree with late-night editing sessions taught me serious discipline.
+                  </p>
+                  <p>
+                    My editing philosophy is simple: complete world-building. I focus on establishing a cinematic atmosphere in those crucial first seconds, setting an undeniable hook, and crafting dynamic edits that keep viewers completely immersed.
+                  </p>
+                  <div>
+                    <h3 className="text-text-primary font-medium mb-1 text-sm uppercase tracking-wider">Beyond the Screen</h3>
+                    <p>
+                      When I’m not debugging code or color-grading a timeline, you can find me solving Rubik’s cubes, swimming, playing badminton, or getting lost in a good fiction book. I’m also a massive movie buff, which heavily fuels the cinematic aesthetics I bring to my work.
+                    </p>
+                  </div>
+                </>
+              )}
+            </div>
 
             {/* Info pills */}
             <div className="flex flex-wrap gap-3">
@@ -66,12 +56,10 @@ export default function AboutSection() {
                 ? [
                     { icon: GraduationCap, text: 'MANIT Bhopal • EE' },
                     { icon: MapPin, text: 'Bhopal, India' },
-                    { icon: Briefcase, text: 'Open to SDE & AI roles' },
                   ]
                 : [
                     { icon: GraduationCap, text: 'MANIT Bhopal' },
                     { icon: MapPin, text: 'Bhopal, India' },
-                    { icon: Briefcase, text: 'Available for projects' },
                   ]
               ).map((item) => (
                 <motion.span
@@ -93,24 +81,35 @@ export default function AboutSection() {
             </div>
           </div>
 
-          {/* Animated stat counters */}
-          <div className="grid grid-cols-2 gap-4">
-            {(mode === 'tech'
-              ? [
-                  { value: '8.90', label: 'CGPA' },
-                  { value: '1712', label: 'LC Rating' },
-                  { value: '400+', label: 'Problems Solved' },
-                  { value: '12.72%', label: 'Top Percentile' },
-                ]
-              : [
-                  { value: '110K+', label: 'Total Views' },
-                  { value: '10+', label: 'Projects' },
-                  { value: '2+', label: 'Years Experience' },
-                  { value: '1', label: 'Roobaroo Head' },
-                ]
-            ).map((stat) => (
-              <AnimatedStat key={stat.label} value={stat.value} label={stat.label} />
-            ))}
+          {/* Photo Container */}
+          <div className="flex justify-center md:justify-start items-center mt-6 md:mt-0">
+            <div 
+              className={cn(
+                "relative w-[300px] sm:w-[360px] lg:w-[400px] aspect-[4/5] overflow-hidden glass-card transition-all duration-700",
+                mode === 'tech' 
+                  ? "shadow-[0_0_30px_rgba(59,130,246,0.15)] rounded-[3rem] rounded-tr-[1rem] rounded-bl-[1rem]" 
+                  : "shadow-[0_0_40px_rgba(249,115,22,0.15)] rounded-[2.5rem] border-x-[12px] border-black/40"
+              )}
+            >
+              <div className="absolute inset-0 bg-surface-100/50 flex flex-col items-center justify-center text-text-muted">
+                <span className="text-sm font-medium tracking-wide">Your Photo Here</span>
+                <span className="text-[10px] mt-1 opacity-60">Add /profile.jpeg to public folder</span>
+              </div>
+              <img 
+                src="/profile2.jpeg" 
+                alt="Profile" 
+                className="absolute inset-0 w-full h-full object-cover object-right sm:object-[80%_center] z-10 transition-transform duration-700 hover:scale-[1.03]"
+                onError={(e) => {
+                  (e.target as HTMLImageElement).style.opacity = '0';
+                }}
+              />
+              <div className={cn(
+                "absolute inset-0 z-20 opacity-60 pointer-events-none transition-all duration-700",
+                mode === 'tech' 
+                  ? "border-2 border-tech/30 rounded-[3rem] rounded-tr-[1rem] rounded-bl-[1rem]" 
+                  : "border-y-2 border-edit/20 rounded-[2.5rem]"
+              )} />
+            </div>
           </div>
         </div>
       </ModeCrossfade>

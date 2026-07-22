@@ -17,9 +17,14 @@ export default function Character() {
 
   // Colors
   const skinColor = '#e8c4a0'
-  const shirtTech = useMemo(() => new THREE.Color('#1e3a5f'), [])
-  const shirtEdit = useMemo(() => new THREE.Color('#3a1e2e'), [])
+  const shirtTech = useMemo(() => new THREE.Color('#ffffff'), []) // white formal shirt
+  const shirtEdit = useMemo(() => new THREE.Color('#334155'), []) // simple dark t-shirt
+  const pantTech = useMemo(() => new THREE.Color('#111111'), []) // black pants
+  const pantEdit = useMemo(() => new THREE.Color('#111111'), []) // black pants
   const shirtRef = useRef<THREE.MeshStandardMaterial>(null)
+  const pantRef = useRef<THREE.MeshStandardMaterial>(null)
+  const leftSleeveRef = useRef<THREE.MeshStandardMaterial>(null)
+  const rightSleeveRef = useRef<THREE.MeshStandardMaterial>(null)
 
   useFrame((state) => {
     const time = state.clock.elapsedTime
@@ -57,11 +62,18 @@ export default function Character() {
       }
     }
 
-    // Shirt color lerp
-    if (shirtRef.current) {
-      const target = mode === 'tech' ? shirtTech : shirtEdit
-      shirtRef.current.color.lerp(target, 0.05)
-      shirtRef.current.emissive.lerp(target, 0.05)
+    // Shirt and Pant color lerp
+    if (shirtRef.current && pantRef.current && leftSleeveRef.current && rightSleeveRef.current) {
+      const targetShirt = mode === 'tech' ? shirtTech : shirtEdit
+      const targetPant = mode === 'tech' ? pantTech : pantEdit
+      
+      shirtRef.current.color.lerp(targetShirt, 0.05)
+      shirtRef.current.emissive.lerp(targetShirt, 0.05)
+      
+      pantRef.current.color.lerp(targetPant, 0.05)
+      
+      leftSleeveRef.current.color.lerp(targetShirt, 0.05)
+      rightSleeveRef.current.color.lerp(targetShirt, 0.05)
     }
 
     // Subtle body breathing
@@ -71,19 +83,40 @@ export default function Character() {
   })
 
   return (
-    <group ref={groupRef} position={[0, -1.2, 0.35]}>
+    <group ref={groupRef} position={[0, -1.2, 0.43]} rotation={[0, Math.PI, 0]}>
       {/* ─── Body / Torso ─── */}
       <mesh position={[0, 1.2, 0]}>
         <boxGeometry args={[0.4, 0.5, 0.25]} />
         <meshStandardMaterial
           ref={shirtRef}
-          color="#1e3a5f"
-          emissive="#1e3a5f"
+          color="#ffffff"
+          emissive="#ffffff"
           emissiveIntensity={0.1}
           roughness={0.7}
           metalness={0.1}
         />
       </mesh>
+
+      {/* ─── Legs / Pants ─── */}
+      <mesh position={[0, 0.85, 0.05]}>
+        <boxGeometry args={[0.38, 0.25, 0.3]} />
+        <meshStandardMaterial
+          ref={pantRef}
+          color="#111111"
+          roughness={0.8}
+        />
+      </mesh>
+
+      {/* Clothing Extras */}
+      {mode === 'tech' && (
+        <group position={[0, 1.2, 0.13]}>
+          {/* Tie */}
+          <mesh position={[0, -0.05, 0.01]}>
+            <boxGeometry args={[0.04, 0.35, 0.01]} />
+            <meshStandardMaterial color="#111111" />
+          </mesh>
+        </group>
+      )}
 
       {/* ─── Head ─── */}
       <mesh ref={headRef} position={[0, 1.65, 0]}>
@@ -95,14 +128,58 @@ export default function Character() {
         />
       </mesh>
 
-      {/* Hair */}
-      <mesh position={[0, 1.74, -0.02]}>
-        <sphereGeometry args={[0.155, 10, 8, 0, Math.PI * 2, 0, Math.PI * 0.55]} />
-        <meshStandardMaterial
-          color="#1a1a1a"
-          roughness={0.9}
-        />
-      </mesh>
+      {/* ─── Aesthetic Hair (Long, Swept Back / Flow) ─── */}
+      <group position={[0, 1.65, 0]}>
+        {/* Base volume covering the head and falling to the neck */}
+        <mesh position={[0, -0.05, -0.08]} scale={[1, 1.3, 1.2]}>
+          <sphereGeometry args={[0.16, 12, 10]} />
+          <meshStandardMaterial color="#1a1a1a" roughness={0.9} />
+        </mesh>
+        
+        {/* Top volume swept back */}
+        <mesh position={[0, 0.1, 0]} scale={[1, 0.6, 1.3]}>
+          <sphereGeometry args={[0.16, 12, 10]} />
+          <meshStandardMaterial color="#1a1a1a" roughness={0.9} />
+        </mesh>
+
+        {/* Back flow (hair falling down the back of the neck) */}
+        <mesh position={[0, -0.15, -0.15]} rotation={[0.4, 0, 0]} scale={[1, 1.2, 0.6]}>
+          <sphereGeometry args={[0.14, 10, 10]} />
+          <meshStandardMaterial color="#1a1a1a" roughness={0.9} />
+        </mesh>
+        
+        {/* Side flows / wings (sweeping over the ears) */}
+        <mesh position={[0.13, -0.08, -0.08]} rotation={[0.2, 0.2, 0.3]} scale={[0.6, 1.2, 1.2]}>
+          <sphereGeometry args={[0.08, 8, 8]} />
+          <meshStandardMaterial color="#1a1a1a" roughness={0.9} />
+        </mesh>
+        <mesh position={[-0.13, -0.08, -0.08]} rotation={[0.2, -0.2, -0.3]} scale={[0.6, 1.2, 1.2]}>
+          <sphereGeometry args={[0.08, 8, 8]} />
+          <meshStandardMaterial color="#1a1a1a" roughness={0.9} />
+        </mesh>
+
+        {/* Top/Back sweeping layers (giving texture to the flow) */}
+        <mesh position={[0, 0.08, -0.15]} rotation={[0.5, 0, 0]} scale={[1, 0.5, 1.4]}>
+          <sphereGeometry args={[0.12, 10, 8]} />
+          <meshStandardMaterial color="#1a1a1a" roughness={0.9} />
+        </mesh>
+        
+        <mesh position={[0.06, 0.12, -0.1]} rotation={[0.3, 0.3, 0.1]} scale={[1, 0.5, 1.5]}>
+          <sphereGeometry args={[0.09, 8, 8]} />
+          <meshStandardMaterial color="#1a1a1a" roughness={0.9} />
+        </mesh>
+        
+        <mesh position={[-0.06, 0.12, -0.1]} rotation={[0.3, -0.3, -0.1]} scale={[1, 0.5, 1.5]}>
+          <sphereGeometry args={[0.09, 8, 8]} />
+          <meshStandardMaterial color="#1a1a1a" roughness={0.9} />
+        </mesh>
+        
+        {/* Front widow's peak / swept back hairline */}
+        <mesh position={[0, 0.14, 0.13]} rotation={[-0.2, 0, 0]} scale={[1, 0.6, 0.8]}>
+          <sphereGeometry args={[0.1, 8, 8]} />
+          <meshStandardMaterial color="#1a1a1a" roughness={0.9} />
+        </mesh>
+      </group>
 
       {/* Eyes */}
       {[-0.05, 0.05].map((x, i) => (
@@ -154,7 +231,8 @@ export default function Character() {
         <mesh position={[0, -0.12, 0.05]} rotation={[0.3, 0, 0]}>
           <capsuleGeometry args={[0.045, 0.2, 6, 12]} />
           <meshStandardMaterial
-            color="#1e3a5f"
+            ref={leftSleeveRef}
+            color="#ffffff"
             roughness={0.7}
           />
         </mesh>
@@ -176,7 +254,8 @@ export default function Character() {
         <mesh position={[0, -0.12, 0.05]} rotation={[0.3, 0, 0]}>
           <capsuleGeometry args={[0.045, 0.2, 6, 12]} />
           <meshStandardMaterial
-            color="#1e3a5f"
+            ref={rightSleeveRef}
+            color="#ffffff"
             roughness={0.7}
           />
         </mesh>
@@ -194,22 +273,22 @@ export default function Character() {
 
       {/* ─── Chair ─── */}
       {/* Seat */}
-      <mesh position={[0, 0.82, 0.15]}>
+      <mesh position={[0, 0.82, -0.15]}>
         <boxGeometry args={[0.45, 0.06, 0.4]} />
         <meshStandardMaterial color="#0e0e15" roughness={0.4} metalness={0.3} />
       </mesh>
       {/* Backrest */}
-      <mesh position={[0, 1.1, 0.38]}>
+      <mesh position={[0, 1.1, -0.38]}>
         <boxGeometry args={[0.42, 0.5, 0.06]} />
         <meshStandardMaterial color="#0e0e15" roughness={0.4} metalness={0.3} />
       </mesh>
       {/* Chair base / stem */}
-      <mesh position={[0, 0.55, 0.15]}>
+      <mesh position={[0, 0.55, -0.15]}>
         <cylinderGeometry args={[0.03, 0.03, 0.5, 8]} />
         <meshStandardMaterial color="#2d2d42" metalness={0.8} />
       </mesh>
       {/* Chair wheels base */}
-      <mesh position={[0, 0.28, 0.15]}>
+      <mesh position={[0, 0.28, -0.15]}>
         <cylinderGeometry args={[0.2, 0.2, 0.03, 5]} />
         <meshStandardMaterial color="#2d2d42" metalness={0.7} />
       </mesh>
@@ -220,7 +299,7 @@ export default function Character() {
           position={[
             Math.sin((i * Math.PI * 2) / 5) * 0.18,
             0.22,
-            0.15 + Math.cos((i * Math.PI * 2) / 5) * 0.18,
+            -0.15 + Math.cos((i * Math.PI * 2) / 5) * 0.18,
           ]}
         >
           <sphereGeometry args={[0.025, 8, 6]} />

@@ -118,23 +118,7 @@ export default function HeroSection() {
               exit={{ opacity: 0, y: -20, filter: 'blur(10px)', transition: { duration: 0.3 } }}
               className="space-y-6 flex flex-col items-center lg:items-start w-full"
             >
-            {/* Status badge */}
-            <motion.div variants={itemVariants} className="flex justify-center">
-              <div
-                className={cn(
-                  'inline-flex items-center gap-2 px-4 py-1.5 rounded-pill text-xs font-medium tracking-wide uppercase border',
-                  mode === 'tech'
-                    ? 'border-tech/20 text-tech bg-tech/5'
-                    : 'border-edit/20 text-edit bg-edit/5'
-                )}
-              >
-                <span className={cn(
-                  'w-1.5 h-1.5 rounded-full animate-pulse-glow',
-                  mode === 'tech' ? 'bg-tech-light' : 'bg-edit-light'
-                )} />
-                {mode === 'tech' ? 'Open to SDE & AI roles' : 'Available for video projects'}
-              </div>
-            </motion.div>
+
 
             {/* Title */}
             <motion.h1

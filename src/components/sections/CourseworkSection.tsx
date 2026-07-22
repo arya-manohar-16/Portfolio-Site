@@ -2,14 +2,15 @@ import { motion } from 'framer-motion'
 import SectionShell, { ModeCrossfade } from './SectionShell'
 import { usePortfolioMode } from '@/context/PortfolioModeContext'
 import { cn } from '@/lib/utils'
-import { BookOpen, Cpu, Database, Brain, Code2, Film, Palette, Music, Sparkles, Layers } from 'lucide-react'
+import { BookOpen, Cpu, Database, Brain, Code2, Film, Palette, Music, Sparkles, Layers, Network } from 'lucide-react'
 
 const techCourses = [
-  { name: 'Data Structures & Algorithms', icon: Code2, description: 'Advanced problem solving, trees, graphs, DP' },
+  { name: 'Data Structures & Algorithms', icon: Code2, description: 'Advanced problem solving, trees, graphs' },
   { name: 'Object-Oriented Programming', icon: Layers, description: 'Design patterns, SOLID principles, polymorphism' },
   { name: 'Operating Systems', icon: Cpu, description: 'Process scheduling, memory management, concurrency' },
   { name: 'Machine Learning', icon: Brain, description: 'Supervised/unsupervised learning, neural networks' },
   { name: 'Database Management System', icon: Database, description: 'SQL, normalization, query optimization, indexing' },
+  { name: 'System Design (HLD)', icon: Network, description: 'Microservices, scalability, load balancing, caching' },
 ]
 
 const editPhilosophy = [

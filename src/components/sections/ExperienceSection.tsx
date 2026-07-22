@@ -46,6 +46,8 @@ export default function ExperienceSection() {
   const { mode } = usePortfolioMode()
   const experiences = mode === 'tech' ? techExperience : editExperience
 
+  if (mode === 'tech') return null
+
   return (
     <SectionShell id="experience">
       <ModeCrossfade>

@@ -112,6 +112,20 @@ export default function GlassNav() {
             >
               Edit
             </button>
+
+            {/* Toggle Hint */}
+            <div className="absolute top-full left-1/2 translate-y-1 translate-x-6 hidden lg:flex items-start gap-1 pointer-events-none opacity-70 animate-pulse">
+              <svg width="24" height="24" viewBox="0 0 32 32" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-text-muted mt-1">
+                <path d="M24 28C24 20 16 16 8 8" />
+                <path d="M16 8H8v8" />
+              </svg>
+              <span 
+                className="text-sm text-text-muted whitespace-nowrap mt-4 italic font-medium" 
+                style={{ fontFamily: "'Caveat', 'Comic Sans MS', cursive" }}
+              >
+                {mode === 'tech' ? 'Toggle to see Edit mode' : 'Toggle to see Tech mode'}
+              </span>
+            </div>
           </div>
 
           {/* Action buttons */}

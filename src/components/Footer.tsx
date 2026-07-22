@@ -49,15 +49,6 @@ export default function Footer() {
                   m.aryamanohar@gmail.com
                 </a>
               </li>
-              <li>
-                <a
-                  href="tel:+918985370606"
-                  className="flex items-center gap-2 text-sm text-text-secondary hover:text-text-primary transition-colors"
-                >
-                  <Phone size={14} className="text-text-muted" />
-                  +91 8985370606
-                </a>
-              </li>
             </ul>
           </div>
 

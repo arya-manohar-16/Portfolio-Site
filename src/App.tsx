@@ -2,6 +2,7 @@ import GlassNav from '@/components/nav/GlassNav'
 import BackgroundParticles from '@/components/BackgroundParticles'
 import HeroSection from '@/components/hero/HeroSection'
 import AboutSection from '@/components/sections/AboutSection'
+import EducationSection from '@/components/sections/EducationSection'
 import CourseworkSection from '@/components/sections/CourseworkSection'
 import SkillsSection from '@/components/sections/SkillsSection'
 import ExperienceSection from '@/components/sections/ExperienceSection'
@@ -25,6 +26,7 @@ export default function App() {
       <main>
         <HeroSection />
         <AboutSection />
+        <EducationSection />
         <CourseworkSection />
         <SkillsSection />
         <ExperienceSection />

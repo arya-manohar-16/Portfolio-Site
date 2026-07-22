@@ -77,15 +77,6 @@ export default function ContactSection() {
                 </div>
                 <span>m.aryamanohar@gmail.com</span>
               </div>
-              <div className="flex items-center gap-4 text-text-secondary">
-                <div className={cn(
-                  'w-10 h-10 rounded-full flex items-center justify-center border',
-                  mode === 'tech' ? 'bg-tech/10 border-tech/20 text-tech' : 'bg-edit/10 border-edit/20 text-edit'
-                )}>
-                  <span className="font-mono text-xs">Ph</span>
-                </div>
-                <span>+91 8985370606</span>
-              </div>
             </div>
           </div>
 

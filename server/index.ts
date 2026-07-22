@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 5000
 // Middleware
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://your-production-domain.com'] // Update this on deployment
+    ? ['https://portfolio-site-j2g5.onrender.com'] // Update this on deployment
 
     
     : ['http://localhost:3000', 'http://127.0.0.1:3000']

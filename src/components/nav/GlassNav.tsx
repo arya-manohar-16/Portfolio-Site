@@ -52,12 +52,13 @@ export default function GlassNav() {
           {/* Logo */}
           <a
             href="#"
-            className={cn(
-              'font-display font-bold text-lg tracking-tight mr-2 transition-colors duration-300',
-              mode === 'tech' ? 'gradient-text-tech' : 'gradient-text-edit'
-            )}
+            className="mr-2 flex items-center justify-center transition-transform hover:scale-105 duration-300"
           >
-            AM
+            <img 
+              src="/AM logo.png" 
+              alt="Arya Manohar Logo" 
+              className="h-8 w-8 rounded-full object-cover shadow-sm ring-2 ring-white/10"
+            />
           </a>
 
           {/* Desktop nav links */}

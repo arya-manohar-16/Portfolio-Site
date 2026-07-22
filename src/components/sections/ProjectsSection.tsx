@@ -67,14 +67,14 @@ const editProjects = [
     description: 'A dynamic, fast-paced cinematic highlight reel capturing the essence of Hyderabad. Features aggressive speed ramping, smooth transitions, and heavy sound design to create an immersive visual experience.',
     tech: ['Premiere Pro', 'After Effects'],
     links: {
-      live: '#',
+      live: 'https://youtu.be/IhpGq8VpjiY',
     },
     features: [
       'Aggressive speed ramping',
       'Advanced sound design',
       'Seamless transitions'
     ],
-    video: '/final hyderabad video.mp4'
+    youtubeId: 'IhpGq8VpjiY'
   },
   {
     id: 'recruiting-soon',
@@ -83,14 +83,14 @@ const editProjects = [
     description: 'An intense, high-energy promotional teaser crafted to build hype for upcoming recruitments. The standout feature is the intricate sound design—I took a single rocket launch audio clip and extensively manipulated its frequency and pitch to generate an entire suite of mind-blowing, cinematic sound effects.',
     tech: ['Premiere Pro', 'After Effects'],
     links: {
-      live: '#',
+      live: 'https://youtu.be/gvTWlmrkhig',
     },
     features: [
       'Custom Foley & SFX',
       'Frequency Manipulation',
       'High-impact pacing'
     ],
-    video: '/recruiting soon vid.mov'
+    youtubeId: 'gvTWlmrkhig'
   },
   {
     id: 'mhd-documentary',
@@ -99,14 +99,14 @@ const editProjects = [
     description: 'An engaging, documentary-style educational video breaking down the complex physics of Magneto-Hydro-Dynamics. It combines kinetic typography, dynamic masking, and rich visual compositing to explain abstract concepts like solar flares and plasma fields.',
     tech: ['After Effects', 'Premiere Pro'],
     links: {
-      live: '#',
+      live: 'https://youtu.be/V_5jM4cxetI',
     },
     features: [
       'Kinetic Typography',
       'Scientific Visualizations',
       'Cinematic Compositing'
     ],
-    video: '/mhd final.mp4'
+    youtubeId: 'V_5jM4cxetI'
   },
 ]
 
@@ -185,7 +185,15 @@ export default function ProjectsSection() {
               {/* Top side: Visual / Media */}
               <div className="flex justify-center w-full">
                 <div className="glass-card overflow-hidden group relative flex items-center justify-center w-[90%] sm:w-[70%] lg:w-[60%] max-w-3xl aspect-[16/9] rounded-2xl bg-surface/30 border border-glass-border shadow-lg">
-                  {(project as any).video ? (
+                  {(project as any).youtubeId ? (
+                    <iframe
+                      src={`https://www.youtube.com/embed/${(project as any).youtubeId}?autoplay=1&mute=1&loop=1&playlist=${(project as any).youtubeId}&controls=1`}
+                      title={project.title}
+                      className="w-full h-full border-0 transition-transform duration-700 group-hover:scale-[1.02]"
+                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                      allowFullScreen
+                    />
+                  ) : (project as any).video ? (
                     <video 
                       src={(project as any).video}
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-[1.02]"

@@ -44,34 +44,26 @@ const editExperience = [
 
 export default function ExperienceSection() {
   const { mode } = usePortfolioMode()
-  const experiences = mode === 'tech' ? techExperience : editExperience
 
   if (mode === 'tech') return null
+
+  const experiences = editExperience
 
   return (
     <SectionShell id="experience">
       <ModeCrossfade>
         <h2 className="font-display text-section mb-4">
-          {mode === 'tech' ? (
-            <>Experience & <span className="gradient-text-tech">Leadership</span></>
-          ) : (
-            <>Creative <span className="gradient-text-edit">Experience</span></>
-          )}
+          Creative <span className="gradient-text-edit">Experience</span>
         </h2>
         <p className="text-section-sub text-text-secondary mb-12 max-w-2xl">
-          {mode === 'tech'
-            ? 'Leadership roles that complement my technical skills.'
-            : 'Where my creative work comes to life.'
-          }
+          Where my creative work comes to life.
         </p>
 
         <div className="relative">
           {/* Timeline line */}
           <div className={cn(
             'absolute left-[19px] top-0 bottom-0 w-px hidden sm:block',
-            mode === 'tech'
-              ? 'bg-gradient-to-b from-tech/40 via-tech/20 to-transparent'
-              : 'bg-gradient-to-b from-edit/40 via-edit/20 to-transparent'
+            'bg-gradient-to-b from-edit/40 via-edit/20 to-transparent'
           )} />
 
           <div className="space-y-8">
@@ -87,16 +79,14 @@ export default function ExperienceSection() {
                 {/* Timeline dot */}
                 <div className={cn(
                   'absolute left-[11px] top-6 w-4 h-4 rounded-full border-2 hidden sm:block',
-                  mode === 'tech'
-                    ? 'border-tech bg-surface shadow-[0_0_12px_rgba(59,130,246,0.4)]'
-                    : 'border-edit bg-surface shadow-[0_0_12px_rgba(249,115,22,0.4)]'
+                  'border-edit bg-surface shadow-[0_0_12px_rgba(249,115,22,0.4)]'
                 )} />
 
                 <div className="glass-card p-6 hover:scale-[1.01] transition-transform duration-300">
                   <div className="flex items-start gap-4">
                     <div className={cn(
                       'w-12 h-12 rounded-xl flex items-center justify-center shrink-0',
-                      mode === 'tech' ? 'bg-tech/10 text-tech' : 'bg-edit/10 text-edit'
+                      'bg-edit/10 text-edit'
                     )}>
                       <exp.icon size={24} />
                     </div>
@@ -120,9 +110,7 @@ export default function ExperienceSection() {
                             key={h}
                             className={cn(
                               'px-2.5 py-1 rounded-pill text-[11px] font-medium border',
-                              mode === 'tech'
-                                ? 'border-tech/10 bg-tech/5 text-tech/70'
-                                : 'border-edit/10 bg-edit/5 text-edit/70'
+                              'border-edit/10 bg-edit/5 text-edit/70'
                             )}
                           >
                             {h}

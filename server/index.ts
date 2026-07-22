@@ -12,7 +12,7 @@ const PORT = process.env.PORT || 5000
 // Middleware
 app.use(cors({
   origin: process.env.NODE_ENV === 'production' 
-    ? ['https://portfolio-site-nmh7-gules.vercel.app/'] // Update this on deployment
+    ? ['https://portfolio-site-beryl-mu.vercel.app/'] // Update this on deployment
 
     
     : ['http://localhost:3000', 'http://127.0.0.1:3000']
